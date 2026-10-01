@@ -60,8 +60,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Il2CppSystem.IO.Compression.FileSystem">
-      <HintPath>
-        $(LastEpochPath)\MelonLoader\Il2CppAssemblies\Il2CppSystem.IO.Compression.FileSystem.dll</HintPath>
+      <HintPath>$(LastEpochPath)\MelonLoader\Il2CppAssemblies\Il2CppSystem.IO.Compression.FileSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Il2CppSystem.Numerics">
@@ -86,6 +85,10 @@
     </Reference>
     <Reference Include="LE.Core">
       <HintPath>$(LastEpochPath)\MelonLoader\Il2CppAssemblies\Il2CppLE.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LE.Addressables">
+      <HintPath>$(LastEpochPath)\MelonLoader\Il2CppAssemblies\Il2CppLE.Addressables.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MelonLoader">
@@ -133,8 +136,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>
-        $(LastEpochPath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.dll</HintPath>
+      <HintPath>$(LastEpochPath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
