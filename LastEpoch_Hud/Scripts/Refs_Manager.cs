@@ -135,7 +135,7 @@ namespace LastEpoch_Hud.Scripts
                 if ((quest_list.IsNullOrDestroyed()) && (!QuestList.get().IsNullOrDestroyed())) { quest_list = QuestList.get(); }                                                             //Complete MainQuest
                 if ((scene_list.IsNullOrDestroyed()) && (!SceneList.instance.IsNullOrDestroyed())) { scene_list = SceneList.instance; }                                                             //Complete MainQuest
                 //craft_materials_holder //Need to fix for LE 1.4
-                if ((InventoryPanelUI.IsNullOrDestroyed()) && (!InventoryPanelUI.instance.IsNullOrDestroyed())) { InventoryPanelUI = InventoryPanelUI.instance; }                                   //AutoStore
+                if (InventoryPanelUI.IsNullOrDestroyed()) { InventoryPanelUI = Object.FindObjectOfType<Il2Cpp.InventoryPanelUI>(true); }                                   //AutoStore
                 if ((BlessingsPanel.IsNullOrDestroyed()) && (!InventoryPanelUI.IsNullOrDestroyed())) { BlessingsPanel = InventoryPanelUI.blessingPanel; }                                           //Blessings
                 if ((ground_item_manager.IsNullOrDestroyed()) && (!GroundItemManager.instance.IsNullOrDestroyed())) { ground_item_manager = GroundItemManager.instance; }                           //Hud
                 if ((item_containers_manager.IsNullOrDestroyed()) && (!ItemContainersManager.Instance.IsNullOrDestroyed())) { item_containers_manager = ItemContainersManager.Instance; }           //Unlock Idols, Items Update
@@ -157,7 +157,7 @@ namespace LastEpoch_Hud.Scripts
                 if (player_golbal_data_tracker.IsNullOrDestroyed()) { player_golbal_data_tracker = PlayerFinder.getGlobalDataTracker(); }                                                           //AutoPickupItems
                 if ((filter_manager.IsNullOrDestroyed()) && (!ItemFilterManager.Instance.IsNullOrDestroyed())) { filter_manager = ItemFilterManager.Instance; }                                     //AutoPickupItems, MinimapIcons
                 if ((camera_manager.IsNullOrDestroyed()) && (!CameraManager.instance.IsNullOrDestroyed())) { camera_manager = CameraManager.instance; }                                             //CameraOverride
-                if (map_panel.IsNullOrDestroyed() && (!MapPanel.instance.IsNullOrDestroyed())) { map_panel = MapPanel.instance; }                                                                   //MainQuest, TpSafe
+                if (map_panel.IsNullOrDestroyed()) { map_panel = Object.FindObjectOfType<MapPanel>(true); }                                                                   //MainQuest, TpSafe
 
                 if (!refsReadyFired
                     && !player_actor.IsNullOrDestroyed()
