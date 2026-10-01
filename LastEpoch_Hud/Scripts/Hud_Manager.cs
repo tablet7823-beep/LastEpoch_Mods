@@ -6808,7 +6808,7 @@ namespace LastEpoch_Hud.Scripts
                     }
                     bool item_idol = false;
                     if (((item_type > 24) && (item_type < 34)) || (item_type == 41)) { item_idol = true; }
-                    foreach (AffixList.SingleAffix affix in AffixList.instance.singleAffixes)
+                    foreach (AffixList.SingleAffix affix in AffixList.get().singleAffixes)
                     {
                         bool affix_idol = false;
                         if (affix.affixName.Contains("Idol ")) { affix_idol = true; }
@@ -6826,7 +6826,7 @@ namespace LastEpoch_Hud.Scripts
                             AddShardInView(affix.affixId, affix.affixName, affix.type, affix_idol, naturally, corrupted);
                         }
                     }
-                    foreach (AffixList.MultiAffix affix in AffixList.instance.multiAffixes)
+                    foreach (AffixList.MultiAffix affix in AffixList.get().multiAffixes)
                     {
                         bool affix_idol = false;
                         if (affix.affixName.Contains("Idol ")) { affix_idol = true; }
@@ -6914,7 +6914,7 @@ namespace LastEpoch_Hud.Scripts
                     if (id > -1)
                     {
                         bool found = false;
-                        foreach (AffixList.SingleAffix affix in AffixList.instance.singleAffixes)
+                        foreach (AffixList.SingleAffix affix in AffixList.get().singleAffixes)
                         {
                             if (id == affix.affixId)
                             {
@@ -6934,7 +6934,7 @@ namespace LastEpoch_Hud.Scripts
                         }
                         if (!found)
                         {
-                            foreach (AffixList.MultiAffix affix in AffixList.instance.multiAffixes)
+                            foreach (AffixList.MultiAffix affix in AffixList.get().multiAffixes)
                             {
                                 if (id == affix.affixId)
                                 {
