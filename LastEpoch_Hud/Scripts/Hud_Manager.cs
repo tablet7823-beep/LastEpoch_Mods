@@ -100,7 +100,7 @@ namespace LastEpoch_Hud.Scripts
 #endif
 #if WINGAMEPAD
                             if (Refs_Manager.epoch_input_manager.forceDisableInput) { Refs_Manager.epoch_input_manager.forceDisableInput = false; }
-                            if (virtual_mouse.IsNullOrDestroyed()) { virtual_mouse = Refs_Manager.epoch_input_manager.virtualMouse; }
+                            if (virtual_mouse.IsNullOrDestroyed()) { virtual_mouse = UnityEngine.Object.FindObjectOfType<PlayerMouse>(true); }
                         }
                         if (Content.OdlForceDrop.enable)
                         {
