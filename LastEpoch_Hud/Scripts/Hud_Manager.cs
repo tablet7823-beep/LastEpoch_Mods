@@ -254,6 +254,12 @@ namespace LastEpoch_Hud.Scripts
         void Update_Refs()
         {
             if ((hud_canvas.IsNullOrDestroyed()) && (!hud_object.IsNullOrDestroyed())) { hud_canvas = hud_object.GetComponent<Canvas>(); }
+
+            //The scene list and the time beast data only exist once the game loader
+            //has run, which is long after the hud is built. Both dropdowns are left
+            //empty until then and filled on the frame their data turns up.
+            if ((!Content.Scenes.Teleport.scene_dropdown.IsNullOrDestroyed()) && (Content.Scenes.Teleport.scene_dropdown.options.Count <= 1)) { Content.Scenes.Teleport.Init(); }
+            if ((Content.OdlForceDrop.evo_count == 0) && (!Content.OdlForceDrop.beast_evolution_0_select_dropdown.IsNullOrDestroyed())) { Content.OdlForceDrop.Init_BeastDropdown(); }
             if (!Refs_Manager.game_uibase.IsNullOrDestroyed())
             {
                 if ((game_canvas.IsNullOrDestroyed()) && (Refs_Manager.game_uibase.canvases.Count > 0)) { game_canvas = Refs_Manager.game_uibase.canvases[0]; }
@@ -3823,11 +3829,11 @@ namespace LastEpoch_Hud.Scripts
                             forcedrop_type_dropdown.ClearOptions();
                             Il2CppSystem.Collections.Generic.List<Dropdown.OptionData> options = new Il2CppSystem.Collections.Generic.List<Dropdown.OptionData>();
                             options.Add(new Dropdown.OptionData { text = "Select" });
-                            foreach (ItemList.BaseEquipmentItem item in ItemList.get().EquippableItems)
+                            foreach (ItemList.BaseEquipmentItem item in Game_Lists.Items().EquippableItems)
                             {
                                 options.Add(new Dropdown.OptionData { text = item.BaseTypeName });
                             }
-                            foreach (ItemList.BaseNonEquipmentItem item in ItemList.get().nonEquippableItems)
+                            foreach (ItemList.BaseNonEquipmentItem item in Game_Lists.Items().nonEquippableItems)
                             {
                                 options.Add(new Dropdown.OptionData { text = item.BaseTypeName });
                             }
@@ -3857,7 +3863,7 @@ namespace LastEpoch_Hud.Scripts
                                 //Main.logger_instance.Msg("Select : Type = " + type_str);
                                 item_type = -1;
                                 bool found = false;
-                                foreach (ItemList.BaseEquipmentItem item in ItemList.get().EquippableItems)
+                                foreach (ItemList.BaseEquipmentItem item in Game_Lists.Items().EquippableItems)
                                 {
                                     if (item.BaseTypeName == type_str)
                                     {
@@ -3868,7 +3874,7 @@ namespace LastEpoch_Hud.Scripts
                                 }
                                 if (!found)
                                 {
-                                    foreach (ItemList.BaseNonEquipmentItem item in ItemList.get().nonEquippableItems)
+                                    foreach (ItemList.BaseNonEquipmentItem item in Game_Lists.Items().nonEquippableItems)
                                     {
                                         if (item.BaseTypeName == type_str)
                                         {
@@ -3961,7 +3967,7 @@ namespace LastEpoch_Hud.Scripts
                                 if (item_rarity == 0)
                                 {
                                     bool type_found = false;
-                                    foreach (ItemList.BaseEquipmentItem item_t in ItemList.get().EquippableItems)
+                                    foreach (ItemList.BaseEquipmentItem item_t in Game_Lists.Items().EquippableItems)
                                     {
                                         if (item_t.baseTypeID == item_type)
                                         {
@@ -3976,7 +3982,7 @@ namespace LastEpoch_Hud.Scripts
                                     }
                                     if (!type_found)
                                     {
-                                        foreach (ItemList.BaseNonEquipmentItem item_t in ItemList.get().nonEquippableItems)
+                                        foreach (ItemList.BaseNonEquipmentItem item_t in Game_Lists.Items().nonEquippableItems)
                                         {
                                             if (item_t.baseTypeID == item_type)
                                             {
@@ -4032,7 +4038,7 @@ namespace LastEpoch_Hud.Scripts
                                 bool item_found = false;
                                 if (item_rarity == 0)
                                 {
-                                    foreach (ItemList.BaseEquipmentItem item_t in ItemList.get().EquippableItems)
+                                    foreach (ItemList.BaseEquipmentItem item_t in Game_Lists.Items().EquippableItems)
                                     {
                                         if (item_t.baseTypeID == item_type)
                                         {
@@ -4049,7 +4055,7 @@ namespace LastEpoch_Hud.Scripts
                                     }
                                     if (!item_found)
                                     {                                        
-                                        foreach (ItemList.BaseNonEquipmentItem item_t in ItemList.get().nonEquippableItems)
+                                        foreach (ItemList.BaseNonEquipmentItem item_t in Game_Lists.Items().nonEquippableItems)
                                         {
                                             if (item_t.baseTypeID == item_type)
                                             {
@@ -4514,12 +4520,19 @@ namespace LastEpoch_Hud.Scripts
 
                     public static void Init()
                     {
+                        //The hud is built before the game loader has produced the scene
+                        //list, so there is nothing to fill the dropdown with yet. Leaving
+                        //it empty lets Init_UserData come back for it once the list exists.
+                        if (scene_dropdown.IsNullOrDestroyed()) { return; }
+                        SceneList scene_list = SceneList.instance;
+                        if (scene_list.IsNullOrDestroyed()) { return; }
+
                         scene_dropdown.options.Clear();
                         scene_dropdown.options.Add(new Dropdown.OptionData("Select"));
 
                         Mods.Teleport.Teleport_ToScene.scene_names.Clear();
                         Mods.Teleport.Teleport_ToScene.scene_names.Add("");
-                        foreach (SceneDetails scene_detail in SceneList.instance.sceneDetailsCollection)
+                        foreach (SceneDetails scene_detail in scene_list.sceneDetailsCollection)
                         {
                             if ((scene_detail.Name != "PersistentUI") &&
                                 (scene_detail.Name != "CharacterSelectScene") &&
@@ -5931,11 +5944,12 @@ namespace LastEpoch_Hud.Scripts
                         };
                         foreach (Dropdown dropdown in beast_dropdowns)
                         {
+                            if (dropdown.IsNullOrDestroyed()) { continue; }
                             dropdown.options.Clear();
                             foreach (string s in evos) { dropdown.options.Add(new Dropdown.OptionData(s)); }
                         }
                     }
-                    else { Main.logger_instance.Error("TimeBeastData not found"); }
+                    //No error here: Update_Refs comes back every frame until the data loads.
                 }
                 public static void Set_Events()
                 {
@@ -6015,11 +6029,11 @@ namespace LastEpoch_Hud.Scripts
                         type_dropdown.ClearOptions();
                         Il2CppSystem.Collections.Generic.List<Dropdown.OptionData> options = new Il2CppSystem.Collections.Generic.List<Dropdown.OptionData>();
                         options.Add(new Dropdown.OptionData { text = "Select" });
-                        foreach (ItemList.BaseEquipmentItem item in ItemList.get().EquippableItems)
+                        foreach (ItemList.BaseEquipmentItem item in Game_Lists.Items().EquippableItems)
                         {
                             options.Add(new Dropdown.OptionData { text = item.BaseTypeName });
                         }
-                        foreach (ItemList.BaseNonEquipmentItem item in ItemList.get().nonEquippableItems)
+                        foreach (ItemList.BaseNonEquipmentItem item in Game_Lists.Items().nonEquippableItems)
                         {
                             options.Add(new Dropdown.OptionData { text = item.BaseTypeName });
                         }
@@ -6048,7 +6062,7 @@ namespace LastEpoch_Hud.Scripts
                             string type_str = type_dropdown.options[type_dropdown.value].text;
                             item_type = -1;
                             bool found = false;
-                            foreach (ItemList.BaseEquipmentItem item in ItemList.get().EquippableItems)
+                            foreach (ItemList.BaseEquipmentItem item in Game_Lists.Items().EquippableItems)
                             {
                                 if (item.BaseTypeName == type_str)
                                 {
@@ -6060,7 +6074,7 @@ namespace LastEpoch_Hud.Scripts
                             }
                             if (!found)
                             {
-                                foreach (ItemList.BaseNonEquipmentItem item in ItemList.get().nonEquippableItems)
+                                foreach (ItemList.BaseNonEquipmentItem item in Game_Lists.Items().nonEquippableItems)
                                 {
                                     if (item.BaseTypeName == type_str)
                                     {
@@ -6155,7 +6169,7 @@ namespace LastEpoch_Hud.Scripts
                             if (item_rarity == 0)
                             {
                                 bool type_found = false;
-                                foreach (ItemList.BaseEquipmentItem item_t in ItemList.get().EquippableItems)
+                                foreach (ItemList.BaseEquipmentItem item_t in Game_Lists.Items().EquippableItems)
                                 {
                                     if (item_t.baseTypeID == item_type)
                                     {
@@ -6170,7 +6184,7 @@ namespace LastEpoch_Hud.Scripts
                                 }
                                 if (!type_found)
                                 {
-                                    foreach (ItemList.BaseNonEquipmentItem item_t in ItemList.get().nonEquippableItems)
+                                    foreach (ItemList.BaseNonEquipmentItem item_t in Game_Lists.Items().nonEquippableItems)
                                     {
                                         if (item_t.baseTypeID == item_type)
                                         {
@@ -6227,7 +6241,7 @@ namespace LastEpoch_Hud.Scripts
                             bool item_found = false;
                             if (item_rarity == 0)
                             {
-                                foreach (ItemList.BaseEquipmentItem item_t in ItemList.get().EquippableItems)
+                                foreach (ItemList.BaseEquipmentItem item_t in Game_Lists.Items().EquippableItems)
                                 {
                                     if (item_t.baseTypeID == item_type)
                                     {
@@ -6244,7 +6258,7 @@ namespace LastEpoch_Hud.Scripts
                                 }
                                 if (!item_found)
                                 {
-                                    foreach (ItemList.BaseNonEquipmentItem item_t in ItemList.get().nonEquippableItems)
+                                    foreach (ItemList.BaseNonEquipmentItem item_t in Game_Lists.Items().nonEquippableItems)
                                     {
                                         if (item_t.baseTypeID == item_type)
                                         {
@@ -6808,7 +6822,7 @@ namespace LastEpoch_Hud.Scripts
                     }
                     bool item_idol = false;
                     if (((item_type > 24) && (item_type < 34)) || (item_type == 41)) { item_idol = true; }
-                    foreach (AffixList.SingleAffix affix in AffixList.get().singleAffixes)
+                    foreach (AffixList.SingleAffix affix in Game_Lists.Affixes().singleAffixes)
                     {
                         bool affix_idol = false;
                         if (affix.affixName.Contains("Idol ")) { affix_idol = true; }
@@ -6826,7 +6840,7 @@ namespace LastEpoch_Hud.Scripts
                             AddShardInView(affix.affixId, affix.affixName, affix.type, affix_idol, naturally, corrupted);
                         }
                     }
-                    foreach (AffixList.MultiAffix affix in AffixList.get().multiAffixes)
+                    foreach (AffixList.MultiAffix affix in Game_Lists.Affixes().multiAffixes)
                     {
                         bool affix_idol = false;
                         if (affix.affixName.Contains("Idol ")) { affix_idol = true; }
@@ -6914,7 +6928,7 @@ namespace LastEpoch_Hud.Scripts
                     if (id > -1)
                     {
                         bool found = false;
-                        foreach (AffixList.SingleAffix affix in AffixList.get().singleAffixes)
+                        foreach (AffixList.SingleAffix affix in Game_Lists.Affixes().singleAffixes)
                         {
                             if (id == affix.affixId)
                             {
@@ -6934,7 +6948,7 @@ namespace LastEpoch_Hud.Scripts
                         }
                         if (!found)
                         {
-                            foreach (AffixList.MultiAffix affix in AffixList.get().multiAffixes)
+                            foreach (AffixList.MultiAffix affix in Game_Lists.Affixes().multiAffixes)
                             {
                                 if (id == affix.affixId)
                                 {
