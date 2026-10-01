@@ -7812,13 +7812,14 @@ namespace LastEpoch_Hud.Scripts
                             }
                             else if ((herald) && (ab.tags.ToString() == tags))
                             {
-                                if (!ab.abilityPrefab.IsNullOrDestroyed())
+                                GameObject ability_prefab = Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef);
+                                if (!ability_prefab.IsNullOrDestroyed())
                                 {
                                     bool contain_collider = false;
-                                    SphereCollider collider = ab.abilityPrefab.GetComponent<UnityEngine.SphereCollider>();
+                                    SphereCollider collider = ability_prefab.GetComponent<UnityEngine.SphereCollider>();
                                     if (!collider.IsNullOrDestroyed()) { contain_collider = true; }
                                     bool contain_vfx_ondeath = false;
-                                    CreateVfxOnDeath vfx_on_death = ab.abilityPrefab.GetComponent<CreateVfxOnDeath>();
+                                    CreateVfxOnDeath vfx_on_death = ability_prefab.GetComponent<CreateVfxOnDeath>();
                                     if (!vfx_on_death.IsNullOrDestroyed()) { contain_vfx_ondeath = true; }
                                     if ((contain_collider) && (contain_vfx_ondeath))
                                     {

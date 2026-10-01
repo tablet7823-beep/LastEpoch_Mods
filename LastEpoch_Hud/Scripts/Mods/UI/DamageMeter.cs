@@ -508,9 +508,10 @@ namespace LastEpoch_Hud.Scripts.Mods.UI
                     {
                         if (ab.abilityName == ability_name)
                         {
-                            if (!ab.abilitySprite.IsNullOrDestroyed())
+                            Sprite ability_sprite = Assets_Loader.LoadSprite(ab.abilitySpriteSoftRef);
+                            if (!ability_sprite.IsNullOrDestroyed())
                             {
-                                result = ab.abilitySprite;
+                                result = ability_sprite;
                                 break;
                             }
                         }
@@ -532,7 +533,7 @@ namespace LastEpoch_Hud.Scripts.Mods.UI
                                         {
                                             if (!creationReferences.thisAbility.IsNullOrDestroyed())
                                             {
-                                                result = creationReferences.thisAbility.abilitySprite;
+                                                result = Assets_Loader.LoadSprite(creationReferences.thisAbility.abilitySpriteSoftRef);
                                             }
                                         }
                                         break;

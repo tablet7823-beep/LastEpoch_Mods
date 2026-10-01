@@ -470,7 +470,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Maxroll
                 {
                     if (ability.name == mainskill_name)
                     {
-                        mainskill_icon = ability.abilitySprite;
+                        mainskill_icon = Assets_Loader.LoadSprite(ability.abilitySpriteSoftRef);
                         break;
                     }
                 }
@@ -495,7 +495,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Maxroll
                             specialized_names[j] = ability.abilityName;
                             specialized_ids[j] = ability.playerAbilityID;
                             specialized_ability[j] = ability;
-                            specialized_icons[j] = ability.abilitySprite;
+                            specialized_icons[j] = Assets_Loader.LoadSprite(ability.abilitySpriteSoftRef);
                             break;
                         }
                     }
@@ -513,7 +513,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Maxroll
                         {
                             active_names[j] = ability.abilityName;
                             active_ability[j] = ability;
-                            active_icons[j] = ability.abilitySprite;
+                            active_icons[j] = Assets_Loader.LoadSprite(ability.abilitySpriteSoftRef);
                             break;
                         }
                     }

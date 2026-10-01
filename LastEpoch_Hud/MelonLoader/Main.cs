@@ -348,7 +348,7 @@ namespace LastEpoch_Hud
         public static Sprite GetItemIcon(ItemDataUnpacked item)
         {
             Sprite result = null; // new Sprite();
-            try { result = UITooltipItem.GetItemSprite(item, ItemUIContext.Default); }
+            try { result = Scripts.Assets_Loader.LoadItemSprite(item, ItemUIContext.Default); }
             catch { Main.logger_instance?.Error("Error GetItemIcon"); }
 
             return result;
