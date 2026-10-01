@@ -25,7 +25,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Shrines
             LoadRef load_ref = load_ref_component.LoadRef;
             if (load_ref == null) { return -1; }
 
-            ShrineList shrine_list = ShrineList.get();
+            ShrineList shrine_list = Game_Lists.Shrines();
             if (shrine_list.IsNullOrDestroyed()) { return -1; }
 
             for (int i = 0; i < shrine_list.entries.Count; i++)

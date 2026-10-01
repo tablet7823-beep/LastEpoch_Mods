@@ -11,9 +11,9 @@ namespace LastEpoch_Hud.Scripts.Mods.Fixs
         {
             bool result = false;
             bool found = false;
-            if (!AffixList.get().IsNullOrDestroyed())
+            if (!Game_Lists.Affixes().IsNullOrDestroyed())
             {
-                foreach (AffixList.Affix affix in AffixList.get().singleAffixes)
+                foreach (AffixList.Affix affix in Game_Lists.Affixes().singleAffixes)
                 {
                     if (affix.affixId == affix_id)
                     {
@@ -24,7 +24,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Fixs
                 }
                 if (!found)
                 {
-                    foreach (AffixList.Affix affix in AffixList.get().multiAffixes)
+                    foreach (AffixList.Affix affix in Game_Lists.Affixes().multiAffixes)
                     {
                         if (affix.affixId == affix_id)
                         {
@@ -36,7 +36,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Fixs
             }
             else
             {
-                Main.logger_instance.Error("Fix_Items.Verify_AffixID() : AffixList.get() is null, Can't check if affix exist");
+                Main.logger_instance.Error("Fix_Items.Verify_AffixID() : Game_Lists.Affixes() is null, Can't check if affix exist");
                 result = true;
             }
             

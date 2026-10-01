@@ -70,7 +70,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Shrines
                 if (CanRun())
                 {
                     int id = Save_Manager.instance.data.modsNotInHud.Shrines_Override_id;
-                    if (id < ShrineList.get().entries.Count) { __0 = id; }
+                    if (id < Game_Lists.Shrines().entries.Count) { __0 = id; }
                 }
             }
         }
