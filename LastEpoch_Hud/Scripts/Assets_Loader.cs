@@ -1,5 +1,7 @@
+using Il2Cpp;
 using Il2CppLE.AssetBundles;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace LastEpoch_Hud.Scripts
 {
@@ -53,10 +55,31 @@ namespace LastEpoch_Hud.Scripts
         }
 
         //The item tooltip builds the sprite soft ref, and it is an instance method now.
-        public static Sprite LoadItemSprite(Il2Cpp.ItemData item, Il2Cpp.ItemUIContext context)
+        public static Sprite LoadItemSprite(ItemData item, ItemUIContext context)
         {
-            if (Il2Cpp.UITooltipItem.instance.IsNullOrDestroyed()) { return null; }
-            return LoadSprite(Il2Cpp.UITooltipItem.instance.GetItemSprite(item, context));
+            if (UITooltipItem.instance.IsNullOrDestroyed()) { return null; }
+            return LoadSprite(UITooltipItem.instance.GetItemSprite(item, context));
+        }
+
+        //The mod's custom uniques used to return their own icon out of GetItemSprite.
+        //That hands back a soft ref now, and a sprite from the mod bundle has no entry
+        //in the addressable catalogue to point one at. The icon is painted over the
+        //image the tooltip just filled instead - the tooltip keeps one image per item
+        //shape and only the matching one is active.
+        public static void OverrideItemImage(UITooltipItem tooltip, bool for_comparison, Sprite sprite)
+        {
+            if (tooltip.IsNullOrDestroyed() || sprite.IsNullOrDestroyed()) { return; }
+
+            Image[] images = for_comparison
+                ? new Image[] { tooltip.compareItemImage, tooltip.compareSmallItemImage, tooltip.compareMediumItemImage, tooltip.compareTallMediumItemImage, tooltip.compareLargeItemImage, tooltip.compareSpearItemImage, tooltip.compareWideItemImage }
+                : new Image[] { tooltip.itemImage, tooltip.smallItemImage, tooltip.mediumItemImage, tooltip.tallMediumItemImage, tooltip.largeItemImage, tooltip.spearItemImage, tooltip.wideItemImage };
+
+            foreach (Image image in images)
+            {
+                if (image.IsNullOrDestroyed()) { continue; }
+                if (!image.gameObject.active) { continue; }
+                image.sprite = sprite;
+            }
         }
     }
 }

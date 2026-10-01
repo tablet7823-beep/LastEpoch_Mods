@@ -17,7 +17,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Minimap
             else { return false; }
         }
 
-        [HarmonyPatch(typeof(Il2CppLE.UI.Minimap.Minimap), "OnInitializeFoW")]
+        [HarmonyPatch(typeof(Il2CppLE.UI.Minimap.Minimap), "OnFoWDataReady")]
         public class Minimap_OnInitializeFoW
         {
             [HarmonyPostfix]

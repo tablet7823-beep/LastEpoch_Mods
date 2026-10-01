@@ -20,11 +20,11 @@ namespace LastEpoch_Hud.Scripts.Mods.Items
             else { return false; }
         }
 
-        [HarmonyPatch(typeof(ItemData), "rollLegendaryPotential")]
+        [HarmonyPatch(typeof(ItemData), "RollLegendaryPotential")]
         public class rollLegendaryPotential
         {
             [HarmonyPrefix]
-            static bool Prefix(ref ItemData __instance, ref int __result, UniqueList.Entry __0, int __1, int __2)
+            static bool Prefix(ref int __result, ref bool __5)
             {
                 if (CanRun())
                 {
@@ -32,6 +32,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Items
                     if (Save_Manager.instance.data.Items.Drop.LegendaryPotencial_Min == Save_Manager.instance.data.Items.Drop.LegendaryPotencial_Max) { roll = (int)Save_Manager.instance.data.Items.Drop.LegendaryPotencial_Max; }
                     else { roll = (int)Random.RandomRange(Save_Manager.instance.data.Items.Drop.LegendaryPotencial_Min, Save_Manager.instance.data.Items.Drop.LegendaryPotencial_Max); }
                     __result = roll;
+                    __5 = false;
                     return false;
                 }
                 else { return true; };

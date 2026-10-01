@@ -1367,31 +1367,31 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                 }
             }
 
-            [HarmonyPatch(typeof(UITooltipItem), "GetItemSprite")]
-            public class UITooltipItem_GetItemSprite
+            [HarmonyPatch(typeof(UITooltipItem), "SetItemImage")]
+            public class UITooltipItem_SetItemImage
             {
                 [HarmonyPostfix]
-                static void Postfix(ref Sprite __result, ItemData __0)
+                static void Postfix(UITooltipItem __instance, ItemDataUnpacked __0, bool __2)
                 {
-                    if (__0.getAsUnpacked().FullName == Ice.Get_Unique_Name() && !Ice.Icon.IsNullOrDestroyed())
+                    if (__0.FullName == Ice.Get_Unique_Name() && !Ice.Icon.IsNullOrDestroyed())
                     {
-                        __result = Ice.Icon;
+                        Assets_Loader.OverrideItemImage(__instance, __2, Ice.Icon);
                     }
-                    else if (__0.getAsUnpacked().FullName == Fire.Get_Unique_Name() && !Fire.Icon.IsNullOrDestroyed())
+                    else if (__0.FullName == Fire.Get_Unique_Name() && !Fire.Icon.IsNullOrDestroyed())
                     {
-                        __result = Fire.Icon;
+                        Assets_Loader.OverrideItemImage(__instance, __2, Fire.Icon);
                     }
-                    else if (__0.getAsUnpacked().FullName == Lightning.Get_Unique_Name() && !Lightning.Icon.IsNullOrDestroyed())
+                    else if (__0.FullName == Lightning.Get_Unique_Name() && !Lightning.Icon.IsNullOrDestroyed())
                     {
-                        __result = Lightning.Icon;
+                        Assets_Loader.OverrideItemImage(__instance, __2, Lightning.Icon);
                     }
-                    else if (__0.getAsUnpacked().FullName == Poison.Get_Unique_Name() && !Poison.Icon.IsNullOrDestroyed())
+                    else if (__0.FullName == Poison.Get_Unique_Name() && !Poison.Icon.IsNullOrDestroyed())
                     {
-                        __result = Poison.Icon;
+                        Assets_Loader.OverrideItemImage(__instance, __2, Poison.Icon);
                     }
-                    else if (__0.getAsUnpacked().FullName == Physical.Get_Unique_Name() && !Physical.Icon.IsNullOrDestroyed())
+                    else if (__0.FullName == Physical.Get_Unique_Name() && !Physical.Icon.IsNullOrDestroyed())
                     {
-                        __result = Physical.Icon;
+                        Assets_Loader.OverrideItemImage(__instance, __2, Physical.Icon);
                     }
                 }
             }

@@ -354,15 +354,15 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                 }
             }
 
-            [HarmonyPatch(typeof(UITooltipItem), "GetItemSprite")]
-            public class UITooltipItem_GetItemSprite
+            [HarmonyPatch(typeof(UITooltipItem), "SetItemImage")]
+            public class UITooltipItem_SetItemImage
             {
                 [HarmonyPostfix]
-                static void Postfix(ref Sprite __result, ItemData __0)
+                static void Postfix(UITooltipItem __instance, ItemDataUnpacked __0, bool __2)
                 {
-                    if (__0.getAsUnpacked().FullName == Get_Unique_Name() && !Icon.IsNullOrDestroyed())
+                    if (__0.FullName == Get_Unique_Name() && !Icon.IsNullOrDestroyed())
                     {
-                        __result = Icon;
+                        Assets_Loader.OverrideItemImage(__instance, __2, Icon);
                     }
                 }
             }
