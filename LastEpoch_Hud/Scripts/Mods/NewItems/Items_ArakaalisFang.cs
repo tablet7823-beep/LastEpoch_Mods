@@ -455,7 +455,7 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                             {
                                 name = "Raise Spider",
                                 abilityName = "Raise Spider",
-                                abilitySprite = Icon,
+                                abilitySpriteSoftRef = ab.abilitySpriteSoftRef,
                                 abilityObjectRotation = Ability.AbilityObjectRotation.FacingTarget,
                                 abilityObjectType = Ability.AbilityObjectType.Default,
                                 animation = AbilityAnimation.CastUp,
@@ -469,7 +469,7 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                                 minionTagsDisplay = ab.minionTagsDisplay,
                                 minionLimitForActiveMinionCriteria = 20,
                                 moveOrAttackFallback = Ability.MoveOrAttackFallback.Wait,
-                                abilityPrefab = prefab_obj,
+                                abilityPrefabSoftRef = ab.abilityPrefabSoftRef,
                                 speedMultiplier = 1f,
                                 speedScaler = SP.CastSpeed,
                                 tags = AT.None,
@@ -491,7 +491,7 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                     {
                         if (ab.name == "SummonPyromancer")
                         {
-                            prefab_obj = Instantiate(ab.abilityPrefab, Vector3.zero, Quaternion.identity);
+                            prefab_obj = Instantiate(Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef), Vector3.zero, Quaternion.identity);
                             prefab_obj.active = false;
                             prefab_obj.name = "Raise Spider prefab";
                             SummonEntityOnDeath summon = prefab_obj.GetComponent<SummonEntityOnDeath>();
@@ -549,11 +549,12 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                 {
                     if (Count() < summon_limit)
                     {
-                        if (ability.abilityPrefab.IsNullOrDestroyed()) { ability.abilityPrefab = Instantiate(prefab_obj, Vector3.zero, Quaternion.identity); }
-                        if (!ability.abilityPrefab.IsNullOrDestroyed())
-                        {                            
-                            ability.abilityPrefab.active = true;
-                            ability.CastAfterDelay(actor.GetComponent<AbilityObjectConstructor>(), target_position, target_position, 0f);
+                        GameObject ability_object = Instantiate(prefab_obj, Vector3.zero, Quaternion.identity);
+                        AbilityObjectConstructor ability_constructor = actor.GetComponent<AbilityObjectConstructor>();
+                        if ((!ability_object.IsNullOrDestroyed()) && (!ability_constructor.IsNullOrDestroyed()))
+                        {
+                            ability_object.active = true;
+                            ability_constructor.constructAbilityObject(ability, target_position, target_position, UseType.Indirect, ability_object, true, false, null, false, null, 0f, AbilityID.none, false, Vector3.zero);
                         }
                     }
                     ResetTimer();
@@ -606,14 +607,10 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                         {
                             emerging.duration = 0f;
                         }
-                        AbilityList ability_list = __instance.gameObject.GetComponent<AbilityList>();
-                        if (!ability_list.IsNullOrDestroyed())
-                        {
-                            foreach (Ability ability in ability_list.abilities)
-                            {
-                                if (ability.abilitySprite.IsNullOrDestroyed()) { ability.abilitySprite = Icon; }
-                            }
-                        }
+                        //The spider's abilities used to borrow the mod's own icon whenever
+                        //they had none. An ability icon is an addressable soft ref now, and
+                        //a sprite loaded from the mod bundle has no entry in that catalogue,
+                        //so there is nothing left to point the ability at.
                     }
                 }
             }
