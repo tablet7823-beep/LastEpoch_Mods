@@ -215,7 +215,7 @@ namespace LastEpoch_Hud.Scripts.Mods.Maxroll
                         sealedAffixType = SealedAffixType.FromCorruption
                     };
 
-                    item.ApplyCorruptionOutcome(Refs_Manager.player_actor, CorruptionOutcome.AddsCorruptedAffix, out int addedAffixId, out int toRemove, out bool affixSelected);
+                    item.ApplyCorruptionOutcome(Refs_Manager.player_actor, CorruptionOutcome.AddsCorruptedAffix, false, item.getLevelRequirement(), out int addedAffixId, out int toRemove, out bool affixSelected);
                     if (item.TryGetSealedCorruptedAffixe(out ItemAffix sealedCorruptedAffix))
                     {
                         sealedCorruptedAffix.affixId = firstCorruptedAffix.affixId;

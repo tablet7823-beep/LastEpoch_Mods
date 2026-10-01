@@ -430,14 +430,14 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                         actor_data = new ActorData();
                         actor_data.actorName = actor_data_name;
                         actor_data.name = actor_data_name;
-                        actor_data.ActorReference = ad.ActorReference;
+                        actor_data.ActorSoftRef = ad.ActorSoftRef;
                         actor_data.actorType = ActorData.Type.Minion;
                         actor_data.enableAnimationSlidingFix = true;
                         actor_data.eTag = ad.eTag;
                         actor_data.eTypes = ad.eTypes;
                         actor_data.id = 999999999; //65903566 //-675722824
                         actor_data.level = 53;
-                        actor_data.VisualsReference = ad.VisualsReference;
+                        actor_data.VisualsSoftRef = ad.VisualsSoftRef;
                         break;
                     }
                 }
