@@ -6,7 +6,8 @@ using UnityEngine.TextCore.LowLevel;
 namespace LastEpoch_Hud.Scripts
 {
     //Korean is hard to read in the hud's bundled font and in the game's own, so every
-    //TextMeshPro label is pointed at Pretendard instead.
+    //canvas label is pointed at Pretendard instead. World space text is left as it is -
+    //see the note further down.
     //
     //The font ships beside the mod rather than being installed into Windows, because
     //TMP can build a dynamic font asset straight from a file: the atlas is filled on
@@ -85,7 +86,7 @@ namespace LastEpoch_Hud.Scripts
             if (Load().IsNullOrDestroyed()) { quiet_sweeps = 3; return; }
 
             int converted = 0;
-            foreach (TMP_Text text in Resources.FindObjectsOfTypeAll<TMP_Text>())
+            foreach (TextMeshProUGUI text in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
             {
                 if (text.IsNullOrDestroyed()) { continue; }
                 if (text.font == font) { continue; }
@@ -98,8 +99,8 @@ namespace LastEpoch_Hud.Scripts
             Main.logger_instance?.Msg("Fonts : moved " + converted + " label(s) to Pretendard");
         }
 
-        //Everything the game builds afterwards is caught as it comes up, so panels that
-        //open later do not need another sweep.
+        //Canvas text the game builds afterwards is caught as it comes up, so panels
+        //that open later do not need another sweep.
         [HarmonyPatch(typeof(TextMeshProUGUI), "OnEnable")]
         public class TextMeshProUGUI_OnEnable
         {
@@ -107,11 +108,11 @@ namespace LastEpoch_Hud.Scripts
             static void Postfix(TextMeshProUGUI __instance) { Apply(__instance); }
         }
 
-        [HarmonyPatch(typeof(TextMeshPro), "OnEnable")]
-        public class TextMeshPro_OnEnable
-        {
-            [HarmonyPostfix]
-            static void Postfix(TextMeshPro __instance) { Apply(__instance); }
-        }
+        //World space text is deliberately left alone. Assigning font replaces
+        //fontSharedMaterial with the new font's default, and the game drives its own
+        //shader through that material: DamageNumber bills its text toward the camera
+        //and fades it out through a MaterialPropertyBlock. Taking the material away
+        //left damage numbers frozen at their world rotation and never fading.
+        //Nothing is lost - world text here is digits, which need no help with hangul.
     }
 }
