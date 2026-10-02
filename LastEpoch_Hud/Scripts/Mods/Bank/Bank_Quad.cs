@@ -125,8 +125,15 @@ namespace LastEpoch_Hud.Scripts.Mods.Bank
                             }
                             if ((!stash_grid_image.IsNullOrDestroyed()) && (default_grid.IsNullOrDestroyed()))
                             {
-                                default_grid = stash_grid_image.activeSprite;
-                                Object.DontDestroyOnLoad(default_grid);
+                                //activeSprite is null until the stash panel has drawn its grid,
+                                //and DontDestroyOnLoad(null) throws. default_grid stayed null
+                                //either way, so the throw repeated on every frame.
+                                Sprite grid = stash_grid_image.activeSprite;
+                                if (!grid.IsNullOrDestroyed())
+                                {
+                                    default_grid = grid;
+                                    Object.DontDestroyOnLoad(default_grid);
+                                }
                             }
                         }
                     }
