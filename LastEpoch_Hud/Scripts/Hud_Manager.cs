@@ -263,6 +263,10 @@ namespace LastEpoch_Hud.Scripts
         {
             if ((hud_canvas.IsNullOrDestroyed()) && (!hud_object.IsNullOrDestroyed())) { hud_canvas = hud_object.GetComponent<Canvas>(); }
 
+            //Moves the labels that already existed onto Pretendard. Throttled, and it
+            //stops by itself once there is nothing left to convert.
+            Fonts_Manager.Sweep();
+
             //The scene list and the time beast data only exist once the game loader
             //has run, which is long after the hud is built. Both dropdowns are left
             //empty until then and filled once their data turns up. Looking for the
