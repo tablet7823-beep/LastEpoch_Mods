@@ -70,11 +70,17 @@ namespace LastEpoch_Hud.Scripts
         public static void WhenReady(System.Func<bool> precondition, System.Action callback)
         {
             if (precondition == null || callback == null) { return; }
-            try
-            {
-                if (precondition()) { callback(); return; }
-            }
+            //Both halves used to share one try, so a callback that threw was reported
+            //as a failing precondition and the stack was the only clue.
+            bool ready;
+            try { ready = precondition(); }
             catch (System.Exception ex) { Main.logger_instance?.Error("[Refs_Manager] WhenReady precondition threw on register: " + ex); return; }
+            if (ready)
+            {
+                try { callback(); }
+                catch (System.Exception ex) { Main.logger_instance?.Error("[Refs_Manager] WhenReady callback threw on register: " + ex); }
+                return;
+            }
             pendingReady.Add(new PendingReady { Precondition = precondition, Callback = callback });
         }
 

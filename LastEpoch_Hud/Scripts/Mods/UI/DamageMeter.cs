@@ -80,9 +80,17 @@ namespace LastEpoch_Hud.Scripts.Mods.UI
                 {
                     if (!Abilities.Contains(ab)) { Abilities.Add(ab); }
                 }
-                foreach (Ability ab in NewItems.Items_Mjolner.Trigger.Abilities)
+                //Mjolner's array stays null until its trigger is set up, and the
+                //slots inside it are filled one at a time, so neither can be walked
+                //blindly. Reaching for it threw, and WhenReady drops a registration
+                //whose callback throws - the meter never initialised for the session.
+                if (NewItems.Items_Mjolner.Trigger.Abilities != null)
                 {
-                    if (!Abilities.Contains(ab)) { Abilities.Add(ab); }
+                    foreach (Ability ab in NewItems.Items_Mjolner.Trigger.Abilities)
+                    {
+                        if (ab.IsNullOrDestroyed()) { continue; }
+                        if (!Abilities.Contains(ab)) { Abilities.Add(ab); }
+                    }
                 }
             }
             if (!UI.Initialized) { UI.Init(); }
