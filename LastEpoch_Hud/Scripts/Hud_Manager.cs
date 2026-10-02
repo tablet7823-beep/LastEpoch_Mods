@@ -78,6 +78,8 @@ namespace LastEpoch_Hud.Scripts
                     if ((IsPauseOpen()) && (!updating))
                     {
                         updating = true;
+                        //Whether the hud was already up before this frame opened it.
+                        bool was_open = hud_object.active;
                         Update_Hud_Content();
                         if (!hud_object.active) { Mods.Fixs.Fix_HudFpsCap.SetHudCapActive(true); }
                         hud_object.active = true;
@@ -88,7 +90,10 @@ namespace LastEpoch_Hud.Scripts
 #if KEYBOARD
                             if (!Refs_Manager.epoch_input_manager.forceDisableInput) { Refs_Manager.epoch_input_manager.forceDisableInput = true; }
                         }
-                        if (Input.GetKeyDown(KeyCode.Escape)) { exit = true; }
+                        //The press that opened the hud must not arm the close too, or
+                        //releasing Escape shuts it again and the hud only stays up for
+                        //as long as the key is held.
+                        if ((was_open) && (Input.GetKeyDown(KeyCode.Escape))) { exit = true; }
                         if (!Hud_Base.Btn_Resume.IsNullOrDestroyed())
                         {
                             if ((Input.GetKeyUp(KeyCode.Escape)) && (exit))
@@ -125,6 +130,9 @@ namespace LastEpoch_Hud.Scripts
                     {
                         updating = true;
                         if (hud_object.active) { hud_object.active = false; Mods.Fixs.Fix_HudFpsCap.SetHudCapActive(false); }
+#if KEYBOARD
+                        exit = false;
+#endif
                         if (!Refs_Manager.epoch_input_manager.IsNullOrDestroyed())
                         {
                             if (Refs_Manager.epoch_input_manager.forceDisableInput) { Refs_Manager.epoch_input_manager.forceDisableInput = false; }
