@@ -120,7 +120,10 @@ namespace LastEpoch_Hud.Scripts
             if ((epoch_input_manager.IsNullOrDestroyed()) && (!EpochInputManager.instance.IsNullOrDestroyed())) { epoch_input_manager = EpochInputManager.instance; }                               //Used to block input
             if ((character_class_list.IsNullOrDestroyed()) && (!Game_Lists.CharacterClasses().IsNullOrDestroyed())) { character_class_list = Game_Lists.CharacterClasses(); }                           //Hud, Maxroll
             if ((item_list.IsNullOrDestroyed()) && (!Game_Lists.Items().IsNullOrDestroyed())) { item_list = Game_Lists.Items(); }                                                                     //Hud, Blessings, Materials, Req, Sockets, NewItems
-            if (unique_list.IsNullOrDestroyed())
+            //getUnique(0) exists to force the unique list to build. Doing that before
+            //the game loader has run stalls the load - the game guards its own lists
+            //for the same reason - so wait until a list the loader owns has appeared.
+            if (unique_list.IsNullOrDestroyed() && (!item_list.IsNullOrDestroyed()))
             {
                 if (UniqueList.instance.IsNullOrDestroyed()) { UniqueList.getUnique(0); }                                                                                                           //Force initialize Unique list
                 if (!UniqueList.instance.IsNullOrDestroyed()) { unique_list = UniqueList.instance; }                                                                                                //NewItems

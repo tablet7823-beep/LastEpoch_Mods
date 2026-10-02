@@ -491,7 +491,10 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                     {
                         if (ab.name == "SummonPyromancer")
                         {
-                            prefab_obj = Instantiate(Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef), Vector3.zero, Quaternion.identity);
+                            GameObject ability_template = Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef);
+                            //The asset is still loading. Leave prefab_obj null so the caller comes back.
+                            if (ability_template.IsNullOrDestroyed()) { break; }
+                            prefab_obj = Instantiate(ability_template, Vector3.zero, Quaternion.identity);
                             prefab_obj.active = false;
                             prefab_obj.name = "Raise Spider prefab";
                             SummonEntityOnDeath summon = prefab_obj.GetComponent<SummonEntityOnDeath>();

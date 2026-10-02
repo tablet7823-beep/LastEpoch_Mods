@@ -257,9 +257,13 @@ namespace LastEpoch_Hud.Scripts
 
             //The scene list and the time beast data only exist once the game loader
             //has run, which is long after the hud is built. Both dropdowns are left
-            //empty until then and filled on the frame their data turns up.
-            if ((!Content.Scenes.Teleport.scene_dropdown.IsNullOrDestroyed()) && (Content.Scenes.Teleport.scene_dropdown.options.Count <= 1)) { Content.Scenes.Teleport.Init(); }
-            if ((Content.OdlForceDrop.evo_count == 0) && (!Content.OdlForceDrop.beast_evolution_0_select_dropdown.IsNullOrDestroyed())) { Content.OdlForceDrop.Init_BeastDropdown(); }
+            //empty until then and filled once their data turns up. Looking for the
+            //beast data walks every loaded object, so this only runs twice a second.
+            if (Time.frameCount % 120 == 0)
+            {
+                if ((!Content.Scenes.Teleport.scene_dropdown.IsNullOrDestroyed()) && (Content.Scenes.Teleport.scene_dropdown.options.Count <= 1)) { Content.Scenes.Teleport.Init(); }
+                if ((Content.OdlForceDrop.evo_count == 0) && (!Content.OdlForceDrop.beast_evolution_0_select_dropdown.IsNullOrDestroyed())) { Content.OdlForceDrop.Init_BeastDropdown(); }
+            }
             if (!Refs_Manager.game_uibase.IsNullOrDestroyed())
             {
                 if ((game_canvas.IsNullOrDestroyed()) && (Refs_Manager.game_uibase.canvases.Count > 0)) { game_canvas = Refs_Manager.game_uibase.canvases[0]; }

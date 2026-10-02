@@ -369,7 +369,10 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                         {
                             if (ab.name == Save_Manager.instance.data.NewItems.HeraldOfIce.VFX)
                             {
-                                prefab_obj = Instantiate(Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef), Vector3.zero, Quaternion.identity);
+                                GameObject ability_template = Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef);
+                                //The asset is still loading. Leave prefab_obj null so the caller comes back.
+                                if (ability_template.IsNullOrDestroyed()) { break; }
+                                prefab_obj = Instantiate(ability_template, Vector3.zero, Quaternion.identity);
                                 prefab_obj.active = false;
                                 prefab_obj.name = "Herald of Ice prefab";
                                 SphereCollider collider = prefab_obj.GetComponent<SphereCollider>();
@@ -580,7 +583,10 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                         {
                             if (ab.name == Save_Manager.instance.data.NewItems.HeraldOfFire.VFX)
                             {
-                                prefab_obj = Instantiate(Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef), Vector3.zero, Quaternion.identity);
+                                GameObject ability_template = Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef);
+                                //The asset is still loading. Leave prefab_obj null so the caller comes back.
+                                if (ability_template.IsNullOrDestroyed()) { break; }
+                                prefab_obj = Instantiate(ability_template, Vector3.zero, Quaternion.identity);
                                 prefab_obj.active = false;
                                 prefab_obj.name = "Herald of Ash prefab";
                                 SphereCollider collider = prefab_obj.GetComponent<SphereCollider>();
@@ -791,7 +797,10 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                         {
                             if (ab.name == Save_Manager.instance.data.NewItems.HeraldOfThunder.VFX)
                             {
-                                prefab_obj = Instantiate(Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef), Vector3.zero, Quaternion.identity);
+                                GameObject ability_template = Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef);
+                                //The asset is still loading. Leave prefab_obj null so the caller comes back.
+                                if (ability_template.IsNullOrDestroyed()) { break; }
+                                prefab_obj = Instantiate(ability_template, Vector3.zero, Quaternion.identity);
                                 prefab_obj.active = false;
                                 prefab_obj.name = "Herald of Thunder prefab";
                                 SphereCollider collider = prefab_obj.GetComponent<SphereCollider>();
@@ -1002,7 +1011,10 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                         {
                             if (ab.name == Save_Manager.instance.data.NewItems.HeraldOfAgony.VFX)
                             {
-                                prefab_obj = Instantiate(Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef), Vector3.zero, Quaternion.identity);
+                                GameObject ability_template = Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef);
+                                //The asset is still loading. Leave prefab_obj null so the caller comes back.
+                                if (ability_template.IsNullOrDestroyed()) { break; }
+                                prefab_obj = Instantiate(ability_template, Vector3.zero, Quaternion.identity);
                                 prefab_obj.active = false;
                                 prefab_obj.name = "Herald of Agony prefab";
                                 SphereCollider collider = prefab_obj.GetComponent<SphereCollider>();
@@ -1213,7 +1225,10 @@ namespace LastEpoch_Hud.Scripts.Mods.NewItems
                         {
                             if (ab.name == Save_Manager.instance.data.NewItems.HeraldOfPurity.VFX)
                             {
-                                prefab_obj = Instantiate(Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef), Vector3.zero, Quaternion.identity);
+                                GameObject ability_template = Assets_Loader.LoadPrefab(ab.abilityPrefabSoftRef);
+                                //The asset is still loading. Leave prefab_obj null so the caller comes back.
+                                if (ability_template.IsNullOrDestroyed()) { break; }
+                                prefab_obj = Instantiate(ability_template, Vector3.zero, Quaternion.identity);
                                 prefab_obj.active = false;
                                 prefab_obj.name = "Herald of Purity prefab";
                                 SphereCollider collider = prefab_obj.GetComponent<SphereCollider>();
