@@ -1,52 +1,52 @@
 # LastEpoch Mods
 
-## How to : 
-+ Installation Instruction can be found in [Discord](https://discord.gg/Kxfq8B82xj)
+## 사용법 : 
++ 설치 방법은 [Discord](https://discord.gg/Kxfq8B82xj)에서 확인할 수 있습니다
 
 
-## Requirements :
+## 요구 사항 :
 + [Melon Loader](https://github.com/LavaGang/MelonLoader)
   
-## Options :
-ItemDrop :
-- Gold Multiplier
-- Items multiplier
-- Experience Multiplier
-- Rarity
-- Implicits
-- Forgin Potencial
-- Affixes Values
-- Affixes Tiers
-- Unique Mods
-- Legendary Potencial
-- Weaver Will
+## 기능 :
+아이템 드랍 :
+- 골드 배수
+- 아이템 배수
+- 경험치 배수
+- 희귀도
+- 내재 속성
+- 단조 가능성
+- 접사 수치
+- 접사 등급
+- 고유 속성
+- 전설 가능성
+- 직조자의 의지
 <br/><br/>
-Autoloot :
-- Gold
-- Keys
-- Unique & Set
-- Xp Tome
-- Materials
-- AutoStore Materials
+자동 획득 :
+- 골드
+- 열쇠
+- 고유 및 세트
+- 경험치 고서
+- 재료
+- 재료 자동 보관
 <br/><br/>
-Scene :
-- Density Multiplier
-- Experience Multiplier
-- Waypoint Unlock
+지역 :
+- 밀집도 배수
+- 경험치 배수
+- 이동 지점 해금
 <br/><br/>
-Remove Prerequisites :
-- Remove Level
-- Remove Class
-- Remove subclass
+요구 조건 제거 :
+- 레벨 요구 제거
+- 클래스 요구 제거
+- 숙련 요구 제거
 <br/><br/>
-Dungeons :
-- Objective Reveal
-- Enter Without Key
+던전 :
+- 목표 공개
+- 열쇠 없이 입장
 <br/><br/>
-Monoliths :
-- Override max stability
-- Objective Reveal
-- Set ennemies defeat count on start
-- Complete Objective on start
-- No lost when die (untested)
+모놀리스 :
+- 최대 안정도 덮어쓰기
+- 목표 공개
+- 시작 시 몬스터 처치 수 지정
+- 시작 시 목표 완료
+- 사망 시 손실 없음 (미검증)
 <br/><br/>
